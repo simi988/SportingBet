@@ -12,13 +12,15 @@ import java.util.UUID;
 
 @Service
 public class ClientService {
+
     private final ClientDao clientDao;
 
     @Autowired
-    public ClientService(@Qualifier("fakeClientDao") ClientDao clientDao) {
+    public ClientService(@Qualifier("fakeDao") ClientDao clientDao) {
         this.clientDao = clientDao;
     }
-    public int addClient(Client client){
+
+    public int insertClient(Client client){
         return clientDao.insertClient(client);
     }
 

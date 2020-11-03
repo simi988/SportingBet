@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-@Repository("fakeClientDao")
+@Repository("fakeDao")
 public class FakeClientDAOService implements ClientDao{
     private static List<Client> DB = new ArrayList<>();
     @Override

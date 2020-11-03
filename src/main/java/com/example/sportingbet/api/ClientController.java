@@ -3,6 +3,7 @@ package com.example.sportingbet.api;
 import com.example.sportingbet.model.Client;
 import com.example.sportingbet.service.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.lang.NonNull;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -10,19 +11,19 @@ import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.UUID;
 
-@RequestMapping("/api/v1/client")
+@RequestMapping("api/v1/client")
 @RestController
 public class ClientController {
     private static ClientService clientService;
 
-    @Autowired
+@Autowired
     public ClientController(ClientService clientService) {
         this.clientService = clientService;
     }
 
     @PostMapping
-    public void addClient(@Valid @NotNull @RequestBody Client client) {
-        clientService.addClient(client);
+    public void insertClient(@Valid @NonNull @RequestBody Client client) {
+        clientService.insertClient(client);
     }
 
     @GetMapping
@@ -42,7 +43,7 @@ public class ClientController {
     }
 
     @PutMapping(path = "{id}")
-    public void updateClient(@PathVariable("id") UUID id, @Valid @NotNull @RequestBody Client clientToUpdate) {
+    public void updateClient(@PathVariable("id") UUID id,@Valid @NonNull @RequestBody Client clientToUpdate) {
         clientService.updateClient(id, clientToUpdate);
     }
 }
