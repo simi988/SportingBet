@@ -20,30 +20,32 @@ public class ClientService {
         this.clientDao = clientDao;
     }
 
-    public int insertClient(Client client){
+    public int insertClient(Client client) {
         return clientDao.insertClient(client);
     }
 
-    public List<Client> getAllClient(){
+    public List<Client> getAllClient() {
         return clientDao.selectAllClient();
     }
 
-    public Optional<Client> getClientById(UUID id){
+    public Optional<Client> getClientById(UUID id) {
         return clientDao.selectClientById(id);
     }
 
-    public int deleteClient(UUID id){
+    public int deleteClient(UUID id) {
         return clientDao.deleteClientById(id);
     }
 
-    public int updateClient(UUID id, Client newClient){
+    public int updateClient(UUID id, Client newClient) {
         return clientDao.updateClientById(id, newClient);
     }
-    public double getClientMoneyById(UUID id){
+
+    public double getClientMoneyById(UUID id) {
         return clientDao.getClientMoneyById(id);
     }
-    public Client updateClientMoneyById(UUID id, double money){
-        return clientDao.updateClientMoneyById(id,money);
+
+    public Client updateClientMoneyById(UUID id, double money) {
+        return clientDao.updateClientMoneyById(id, money);
     }
 
 }

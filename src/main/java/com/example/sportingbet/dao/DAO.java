@@ -11,13 +11,13 @@ public class DAO {
     private static final String PASSWORD = "password";
     private static final String CREATE_DATABASE_IF_NOT_EXISTS_MYDATABASE = "CREATE DATABASE IF NOT EXISTS mydatabase";
     private static final String CREATE_TABLE_CLIENT = "CREATE TABLE IF NOT EXISTS TBL_CLIENT " + "(TABLE_NUMBER INTEGER, " +
-            " MONEY Double,"+"ID LONG)";
-    private static final String CREATE_TABLE_BET="CREATE TABLE IF NOT EXISTS TBL_BET " + "(GAMELIST String, " +
-            " MONEY Double,"+"ID LONG)";
-    private static final String CREATE_TABLE_GAME="CREATE TABLE IF NOT EXISTS TBL_GAME " + "(TABLE_NUMBER INTEGER, " +
-            " TYPE String,"+"ID LONG)";
-    private static final String CREATE_TABLE_GAME_TYPE="CREATE TABLE IF NOT EXISTS TBL_GAME_TYPE " + "(SHARE Double, " +
-            " TYPE String,"+"ID LONG)";
+            " MONEY Double," + "ID LONG)";
+    private static final String CREATE_TABLE_BET = "CREATE TABLE IF NOT EXISTS TBL_BET " + "(GAMELIST String, " +
+            " MONEY Double," + "ID LONG)";
+    private static final String CREATE_TABLE_GAME = "CREATE TABLE IF NOT EXISTS TBL_GAME " + "(TABLE_NUMBER INTEGER, " +
+            " TYPE String," + "ID LONG)";
+    private static final String CREATE_TABLE_GAME_TYPE = "CREATE TABLE IF NOT EXISTS TBL_GAME_TYPE " + "(SHARE Double, " +
+            " TYPE String," + "ID LONG)";
 
     private static final String DROP_TABLE_TBL_CLIENT = "DROP TABLE TBL_CLIENT";
     private static final String DROP_TABLE_TBL_BET = "DROP TABLE TBL_BET";
@@ -40,6 +40,7 @@ public class DAO {
             err.println(exception.getMessage());
         }
     }
+
     private void startConnection() {
         try {
             connection = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
@@ -47,6 +48,7 @@ public class DAO {
             err.println(exception.getMessage());
         }
     }
+
     private void executeUpdate(PreparedStatement preparedStatement) {
         try {
             preparedStatement.executeUpdate();

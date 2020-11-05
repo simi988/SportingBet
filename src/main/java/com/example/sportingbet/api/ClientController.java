@@ -15,7 +15,7 @@ import java.util.UUID;
 public class ClientController {
     private static ClientService clientService;
 
-@Autowired
+    @Autowired
     public ClientController(ClientService clientService) {
         this.clientService = clientService;
     }
@@ -30,14 +30,14 @@ public class ClientController {
         return clientService.getAllClient();
     }
 
-    @GetMapping(path = "all/{id}")
+    @GetMapping(path = "getClient/{id}")
     public Client getClientById(@PathVariable("id") UUID id) {
         return clientService.getClientById(id)
                 .orElse(null);
     }
 
-   @GetMapping(path = "{id}")
-    public double getClientMoneyById(@PathVariable("id") UUID id){
+    @GetMapping(path = "getClientMoney/{id}")
+    public double getClientMoneyById(@PathVariable("id") UUID id) {
         return clientService.getClientMoneyById(id);
     }
 
@@ -47,12 +47,13 @@ public class ClientController {
     }
 
     @PutMapping(path = "{id}")
-    public void updateClient(@PathVariable("id") UUID id,@Valid @NonNull @RequestBody Client clientToUpdate) {
+    public void updateClient(@PathVariable("id") UUID id, @Valid @NonNull @RequestBody Client clientToUpdate) {
         clientService.updateClient(id, clientToUpdate);
     }
-    @PutMapping(path = "{id}/{money}")
-    public void updateClientMoneyById (@PathVariable("id") UUID id, @PathVariable("money") double money){
-    clientService.updateClientMoneyById(id, money);
+
+    @PutMapping(path = "updateClientMoney/{id}/{money}")
+    public void updateClientMoneyById(@PathVariable("id") UUID id, @PathVariable("money") double money) {
+        clientService.updateClientMoneyById(id, money);
     }
 
 }

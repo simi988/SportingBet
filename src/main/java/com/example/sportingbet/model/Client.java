@@ -7,9 +7,8 @@ import java.util.UUID;
 
 public class Client {
     private final UUID id;
-@NotBlank
+    @NotBlank
     private final String name;
-
     private double money;
 
     public Client(@JsonProperty("id") UUID id,

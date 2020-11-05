@@ -10,22 +10,22 @@ import java.util.UUID;
 
 @Repository("fakeDao")
 public class FakeClientDAOService implements ClientDao {
-    private static List<Client> DB = new ArrayList<>();
+    private static List<Client> dataBase = new ArrayList<>();
 
     @Override
     public int insertClient(UUID id, Client client) {
-        DB.add(new Client(id, client.getName(), client.getMoney()));
+        dataBase.add(new Client(id, client.getName(), client.getMoney()));
         return 1;
     }
 
     @Override
     public List<Client> selectAllClient() {
-        return DB;
+        return dataBase;
     }
 
     @Override
     public Optional<Client> selectClientById(UUID id) {
-        return DB.stream().filter(client -> client.getId().equals(id))
+        return dataBase.stream().filter(client -> client.getId().equals(id))
                 .findFirst();
     }
 
@@ -35,7 +35,7 @@ public class FakeClientDAOService implements ClientDao {
         if (deleteClient.isEmpty()) {
             return 0;
         }
-        DB.remove(deleteClient.get());
+        dataBase.remove(deleteClient.get());
         return 1;
     }
 
@@ -43,9 +43,9 @@ public class FakeClientDAOService implements ClientDao {
     public int updateClientById(UUID id, Client updateClient) {
         return selectClientById(id)
                 .map(client -> {
-                    int indexOfClientToUpdate = DB.indexOf(client);
+                    int indexOfClientToUpdate = dataBase.indexOf(client);
                     if (indexOfClientToUpdate >= 0) {
-                        DB.set(indexOfClientToUpdate, new Client(id, updateClient.getName(), updateClient.getMoney()));
+                        dataBase.set(indexOfClientToUpdate, new Client(id, updateClient.getName(), updateClient.getMoney()));
                         return 1;
                     }
                     return 0;
@@ -58,7 +58,7 @@ public class FakeClientDAOService implements ClientDao {
     public double getClientMoneyById(UUID id) {
         Optional<Client> optionalClient = selectClientById(id);
         Client client = optionalClient.get();
-        return  client.getMoney();
+        return client.getMoney();
     }
 
     @Override

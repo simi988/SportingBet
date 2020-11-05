@@ -13,10 +13,16 @@ public interface ClientDao {
         UUID id = UUID.randomUUID();
         return insertClient(id, client);
     }
+
     List<Client> selectAllClient();
-    Optional<Client>selectClientById(UUID id);
+
+    Optional<Client> selectClientById(UUID id);
+
     int deleteClientById(UUID id);
+
     int updateClientById(UUID id, Client client);
+
     double getClientMoneyById(UUID id);
+
     Client updateClientMoneyById(UUID id, double money);
 }
