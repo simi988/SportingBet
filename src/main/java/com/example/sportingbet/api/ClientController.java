@@ -30,11 +30,12 @@ public class ClientController {
         return clientService.getAllClient();
     }
 
-//    @GetMapping(path = "{id}")
-//    public Client getClientById(@PathVariable("id") UUID id) {
-//        return clientService.getClientById(id)
-//                .orElse(null);
-//    }
+    @GetMapping(path = "all/{id}")
+    public Client getClientById(@PathVariable("id") UUID id) {
+        return clientService.getClientById(id)
+                .orElse(null);
+    }
+
    @GetMapping(path = "{id}")
     public double getClientMoneyById(@PathVariable("id") UUID id){
         return clientService.getClientMoneyById(id);
