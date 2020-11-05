@@ -17,4 +17,6 @@ public interface ClientDao {
     Optional<Client>selectClientById(UUID id);
     int deleteClientById(UUID id);
     int updateClientById(UUID id, Client client);
+    double getClientMoneyById(UUID id);
+    Client updateClientMoneyById(UUID id, double money);
 }

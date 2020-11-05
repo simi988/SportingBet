@@ -39,5 +39,11 @@ public class ClientService {
     public int updateClient(UUID id, Client newClient){
         return clientDao.updateClientById(id, newClient);
     }
+    public double getClientMoneyById(UUID id){
+        return clientDao.getClientMoneyById(id);
+    }
+    public Client updateClientMoneyById(UUID id, double money){
+        return clientDao.updateClientMoneyById(id,money);
+    }
 
 }

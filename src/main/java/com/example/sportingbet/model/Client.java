@@ -31,4 +31,9 @@ public class Client {
     public double getMoney() {
         return money;
     }
+
+    public Client setMoney(double money) {
+        this.money = money;
+        return null;
+    }
 }

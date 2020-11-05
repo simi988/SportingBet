@@ -7,7 +7,6 @@ import org.springframework.lang.NonNull;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.UUID;
 
@@ -31,10 +30,14 @@ public class ClientController {
         return clientService.getAllClient();
     }
 
-    @GetMapping(path = "{id}")
-    public Client getClientById(@PathVariable("id") UUID id) {
-        return clientService.getClientById(id)
-                .orElse(null);
+//    @GetMapping(path = "{id}")
+//    public Client getClientById(@PathVariable("id") UUID id) {
+//        return clientService.getClientById(id)
+//                .orElse(null);
+//    }
+   @GetMapping(path = "{id}")
+    public double getClientMoneyById(@PathVariable("id") UUID id){
+        return clientService.getClientMoneyById(id);
     }
 
     @DeleteMapping(path = "{id}")
@@ -46,4 +49,9 @@ public class ClientController {
     public void updateClient(@PathVariable("id") UUID id,@Valid @NonNull @RequestBody Client clientToUpdate) {
         clientService.updateClient(id, clientToUpdate);
     }
+    @PutMapping(path = "{id}/{money}")
+    public void updateClientMoneyById (@PathVariable("id") UUID id, @PathVariable("money") double money){
+    clientService.updateClientMoneyById(id, money);
+    }
+
 }
