@@ -10,7 +10,7 @@ import javax.validation.Valid;
 import java.util.List;
 import java.util.UUID;
 
-@RequestMapping("api/v1/client")
+@RequestMapping("api/v1/user")
 @RestController
 public class ClientController {
     private static ClientService clientService;
@@ -30,13 +30,13 @@ public class ClientController {
         return clientService.getAllClient();
     }
 
-    @GetMapping(path = "getClient/{id}")
+    @GetMapping(path = "getclient/{id}")
     public Client getClientById(@PathVariable("id") UUID id) {
         return clientService.getClientById(id)
                 .orElse(null);
     }
 
-    @GetMapping(path = "getClientMoney/{id}")
+    @GetMapping(path = "getclientmoney/{id}")
     public double getClientMoneyById(@PathVariable("id") UUID id) {
         return clientService.getClientMoneyById(id);
     }
@@ -51,7 +51,7 @@ public class ClientController {
         clientService.updateClient(id, clientToUpdate);
     }
 
-    @PutMapping(path = "updateClientMoney/{id}/{money}")
+    @PutMapping(path = "updateclientmoney/{id}/{money}")
     public void updateClientMoneyById(@PathVariable("id") UUID id, @PathVariable("money") double money) {
         clientService.updateClientMoneyById(id, money);
     }
