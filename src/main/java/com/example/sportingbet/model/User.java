@@ -5,15 +5,15 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import javax.validation.constraints.NotBlank;
 import java.util.UUID;
 
-public class Client {
+public class User {
     private final UUID id;
     @NotBlank
     private final String name;
     private double money;
 
-    public Client(@JsonProperty("id") UUID id,
-                  @JsonProperty("name") String name,
-                  @JsonProperty("money") double money) {
+    public User(@JsonProperty("id") UUID id,
+                @JsonProperty("name") String name,
+                @JsonProperty("money") double money) {
         this.id = id;
         this.name = name;
         this.money = money;
@@ -31,7 +31,7 @@ public class Client {
         return money;
     }
 
-    public Client setMoney(double money) {
+    public User setMoney(double money) {
         this.money = money;
         return null;
     }
