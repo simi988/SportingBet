@@ -7,9 +7,9 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface UserDAO {
-    int insertUser(UUID id, User user);
+    int insertUser(UUID id, User user) throws Exception;
 
-    default int insertUser(User user) {
+    default int insertUser(User user) throws Exception {
         UUID id = UUID.randomUUID();
         return insertUser(id, user);
     }

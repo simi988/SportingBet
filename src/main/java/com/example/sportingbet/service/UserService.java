@@ -7,7 +7,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface UserService {
-    int insertUser(User user);
+    int insertUser(User user) throws Exception;
 
     List<User> getAllUser();
 

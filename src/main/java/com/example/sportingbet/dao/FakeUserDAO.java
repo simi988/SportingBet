@@ -13,8 +13,9 @@ public class FakeUserDAO implements UserDAO {
     private static List<User> dataBase = new ArrayList<>();
 
     @Override
-    public int insertUser(UUID id, User user) {
-        dataBase.add(new User(id, user.getName(), user.getMoney()));
+    public int insertUser(UUID id, User user) throws Exception {
+        userExistInDataBase(user);
+        dataBase.add(new User(id, user.getName(), user.getMoney(), user.getUserName(), user.getPassword()));
         return 1;
     }
 
@@ -45,7 +46,7 @@ public class FakeUserDAO implements UserDAO {
                 .map(user -> {
                     int indexOfUserToUpdate = dataBase.indexOf(user);
                     if (indexOfUserToUpdate >= 0) {
-                        dataBase.set(indexOfUserToUpdate, new User(id, updateUser.getName(), updateUser.getMoney()));
+                        dataBase.set(indexOfUserToUpdate, new User(id, updateUser.getName(), updateUser.getMoney(), updateUser.getUserName(), updateUser.getPassword()));
                         return 1;
                     }
                     return 0;
@@ -66,6 +67,15 @@ public class FakeUserDAO implements UserDAO {
         Optional<User> optionalUser = selectUserById(id);
         User user = optionalUser.get();
         return user.setMoney(money);
+    }
+
+    private User userExistInDataBase(User user) throws Exception {
+        for (User userName : dataBase) {
+            if (user.getUserName().equals(userName.getUserName())) {
+                throw new IllegalArgumentException("Username is already exist");
+            }
+        }
+        return user;
     }
 
 }

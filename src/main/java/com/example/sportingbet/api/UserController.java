@@ -21,7 +21,7 @@ public class UserController {
     }
 
     @PostMapping
-    public void insertUser(@Valid @NonNull @RequestBody User user) {
+    public void insertUser(@Valid @NonNull @RequestBody User user) throws Exception {
         userService.insertUser(user);
     }
 

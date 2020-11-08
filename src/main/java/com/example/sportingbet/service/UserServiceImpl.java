@@ -20,7 +20,7 @@ public class UserServiceImpl implements UserService {
         this.userDao = userDao;
     }
 
-    public int insertUser(User user) {
+    public int insertUser(User user) throws Exception {
         return userDao.insertUser(user);
     }
 
