@@ -1,5 +1,6 @@
 package com.example.sportingbet.dao;
 
+import com.example.sportingbet.model.DublicateUsername;
 import com.example.sportingbet.model.User;
 import org.springframework.stereotype.Repository;
 
@@ -14,7 +15,7 @@ public class FakeUserDAO implements UserDAO {
 
     @Override
     public int insertUser(UUID id, User user) throws Exception {
-        userExistInDataBase(user);
+        validateUsername(user);
         dataBase.add(new User(id, user.getName(), user.getMoney(), user.getUserName(), user.getPassword()));
         return 1;
     }
@@ -69,13 +70,13 @@ public class FakeUserDAO implements UserDAO {
         return user.setMoney(money);
     }
 
-    private User userExistInDataBase(User user) throws Exception {
+    private boolean validateUsername(User user) throws Exception {
         for (User userName : dataBase) {
             if (user.getUserName().equals(userName.getUserName())) {
-                throw new IllegalArgumentException("Username is already exist");
+                throw new DublicateUsername("Username is already exist");
             }
         }
-        return user;
+        return true;
     }
 
 }
