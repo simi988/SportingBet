@@ -1,5 +1,6 @@
 package com.example.sportingbet.api;
 
+import com.example.sportingbet.exception.DuplicateUsernameException;
 import com.example.sportingbet.model.User;
 import com.example.sportingbet.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +14,7 @@ import java.util.UUID;
 @RequestMapping("api/v1/user")
 @RestController
 public class UserController {
-    private static UserService userService;
+    private final UserService userService;
 
     @Autowired
     public UserController(UserService userService) {
@@ -21,7 +22,7 @@ public class UserController {
     }
 
     @PostMapping
-    public void insertUser(@Valid @NonNull @RequestBody User user) throws Exception {
+    public void insertUser(@Valid @NonNull @RequestBody User user) throws DuplicateUsernameException {
         userService.insertUser(user);
     }
 

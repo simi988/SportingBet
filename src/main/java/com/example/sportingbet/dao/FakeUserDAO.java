@@ -1,6 +1,6 @@
 package com.example.sportingbet.dao;
 
-import com.example.sportingbet.model.DublicateUsername;
+import com.example.sportingbet.exception.DuplicateUsernameException;
 import com.example.sportingbet.model.User;
 import org.springframework.stereotype.Repository;
 
@@ -11,13 +11,12 @@ import java.util.UUID;
 
 @Repository("fakeDao")
 public class FakeUserDAO implements UserDAO {
-    private static List<User> dataBase = new ArrayList<>();
+    private final List<User> dataBase = new ArrayList<>();
 
     @Override
-    public int insertUser(UUID id, User user) throws Exception {
+    public void insertUser(UUID id, User user) throws DuplicateUsernameException {
         validateUsername(user);
         dataBase.add(new User(id, user.getName(), user.getMoney(), user.getUserName(), user.getPassword()));
-        return 1;
     }
 
     @Override
@@ -32,18 +31,17 @@ public class FakeUserDAO implements UserDAO {
     }
 
     @Override
-    public int deleteUserById(UUID id) {
+    public void deleteUserById(UUID id) {
         Optional<User> deleteUser = selectUserById(id);
         if (deleteUser.isEmpty()) {
-            return 0;
+            return;
         }
         dataBase.remove(deleteUser.get());
-        return 1;
     }
 
     @Override
-    public int updateUserById(UUID id, User updateUser) {
-        return selectUserById(id)
+    public void updateUserById(UUID id, User updateUser) {
+        selectUserById(id)
                 .map(user -> {
                     int indexOfUserToUpdate = dataBase.indexOf(user);
                     if (indexOfUserToUpdate >= 0) {
@@ -51,8 +49,7 @@ public class FakeUserDAO implements UserDAO {
                         return 1;
                     }
                     return 0;
-                })
-                .orElse(0);
+                });
     }
 
 
@@ -64,19 +61,19 @@ public class FakeUserDAO implements UserDAO {
     }
 
     @Override
-    public User updateUserMoneyById(UUID id, double money) {
+    public void updateUserMoneyById(UUID id, double money) {
         Optional<User> optionalUser = selectUserById(id);
         User user = optionalUser.get();
-        return user.setMoney(money);
+        user.setMoney(money);
     }
 
-    private boolean validateUsername(User user) throws Exception {
+    private void validateUsername(User user) throws DuplicateUsernameException {
         for (User userName : dataBase) {
             if (user.getUserName().equals(userName.getUserName())) {
-                throw new DublicateUsername("Username is already exist");
+                throw new DuplicateUsernameException("Username is already exist");
             }
         }
-        return true;
+
     }
 
 }

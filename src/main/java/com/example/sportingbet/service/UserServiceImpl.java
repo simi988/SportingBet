@@ -1,6 +1,7 @@
 package com.example.sportingbet.service;
 
 import com.example.sportingbet.dao.UserDAO;
+import com.example.sportingbet.exception.DuplicateUsernameException;
 import com.example.sportingbet.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -20,8 +21,8 @@ public class UserServiceImpl implements UserService {
         this.userDao = userDao;
     }
 
-    public int insertUser(User user) throws Exception {
-        return userDao.insertUser(user);
+    public void insertUser(User user) throws DuplicateUsernameException {
+        userDao.insertUser(user);
     }
 
     public List<User> getAllUser() {
@@ -32,20 +33,20 @@ public class UserServiceImpl implements UserService {
         return userDao.selectUserById(id);
     }
 
-    public int deleteUser(UUID id) {
-        return userDao.deleteUserById(id);
+    public void deleteUser(UUID id) {
+        userDao.deleteUserById(id);
     }
 
-    public int updateUser(UUID id, User newUser) {
-        return userDao.updateUserById(id, newUser);
+    public void updateUser(UUID id, User newUser) {
+        userDao.updateUserById(id, newUser);
     }
 
     public double getUserMoneyById(UUID id) {
         return userDao.getUserMoneyById(id);
     }
 
-    public User updateUserMoneyById(UUID id, double money) {
-        return userDao.updateUserMoneyById(id, money);
+    public void updateUserMoneyById(UUID id, double money) {
+        userDao.updateUserMoneyById(id, money);
     }
 
 }

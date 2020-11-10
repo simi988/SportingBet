@@ -1,5 +1,6 @@
 package com.example.sportingbet.dao;
 
+import com.example.sportingbet.exception.DuplicateUsernameException;
 import com.example.sportingbet.model.User;
 
 import java.util.List;
@@ -7,22 +8,22 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface UserDAO {
-    int insertUser(UUID id, User user) throws Exception;
+    void insertUser(UUID id, User user) throws DuplicateUsernameException;
 
-    default int insertUser(User user) throws Exception {
+    default void insertUser(User user) throws DuplicateUsernameException {
         UUID id = UUID.randomUUID();
-        return insertUser(id, user);
+        insertUser(id, user);
     }
 
     List<User> selectAllUser();
 
     Optional<User> selectUserById(UUID id);
 
-    int deleteUserById(UUID id);
+    void deleteUserById(UUID id);
 
-    int updateUserById(UUID id, User user);
+    void updateUserById(UUID id, User user);
 
     double getUserMoneyById(UUID id);
 
-    User updateUserMoneyById(UUID id, double money);
+    void updateUserMoneyById(UUID id, double money);
 }
