@@ -5,5 +5,7 @@ public class DuplicateUsernameException extends Exception {
     public DuplicateUsernameException(String string) {
         super(string);
     }
+
+  
 }
 
