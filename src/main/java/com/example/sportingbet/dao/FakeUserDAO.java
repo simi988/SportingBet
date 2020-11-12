@@ -2,8 +2,11 @@ package com.example.sportingbet.dao;
 
 import com.example.sportingbet.exception.DuplicateUsernameException;
 import com.example.sportingbet.model.User;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Repository;
 
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -70,7 +73,7 @@ public class FakeUserDAO implements UserDAO {
     private void validateUsername(User user) throws DuplicateUsernameException {
         for (User userName : dataBase) {
             if (user.getUserName().equals(userName.getUserName())) {
-                throw new DuplicateUsernameException("Username is already exist");
+                throw new DuplicateUsernameException("Username is already exist", HttpStatus.BAD_REQUEST, ZonedDateTime.now(ZoneId.of("Z")));
             }
         }
 
