@@ -1,6 +1,6 @@
 package com.example.sportingbet.dao;
 
-import com.example.sportingbet.exception.DuplicateUsernameException;
+import com.example.sportingbet.exception.UserException;
 import com.example.sportingbet.model.User;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Repository;
@@ -11,14 +11,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Repository("fakeDao")
 public class FakeUserDAO implements UserDAO {
     private final List<User> dataBase = new ArrayList<>();
 
     @Override
-    public void insertUser(UUID id, User user) throws DuplicateUsernameException {
-        validateUsername(user);
+    public void insertUser(UUID id, User user) throws UserException {
+        validateUser(user);
         dataBase.add(new User(id, user.getName(), user.getMoney(), user.getUserName(), user.getPassword()));
     }
 
@@ -70,11 +72,17 @@ public class FakeUserDAO implements UserDAO {
         user.setMoney(money);
     }
 
-    private void validateUsername(User user) throws DuplicateUsernameException {
+    private void validateUser(User user) throws UserException {
+        Pattern pattern = Pattern.compile("[^A-Za-z0-9]");
+        Matcher match = pattern.matcher(user.getName());
+        if (match.find()) {
+            throw new UserException("The name must not contain any special characters", HttpStatus.BAD_REQUEST, ZonedDateTime.now(ZoneId.of("Z")));
+        }
         for (User userName : dataBase) {
             if (user.getUserName().equals(userName.getUserName())) {
-                throw new DuplicateUsernameException("Username is already exist", HttpStatus.BAD_REQUEST, ZonedDateTime.now(ZoneId.of("Z")));
+                throw new UserException("Username is already exist", HttpStatus.BAD_REQUEST, ZonedDateTime.now(ZoneId.of("Z")));
             }
+
         }
 
     }

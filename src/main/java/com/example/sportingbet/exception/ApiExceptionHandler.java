@@ -9,12 +9,12 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 @ControllerAdvice
 public class ApiExceptionHandler {
 
-    @ExceptionHandler(DuplicateUsernameException.class)
-    public ResponseEntity<Object> handleApiRequestException(DuplicateUsernameException duplicateUsernameException) {
-        HttpStatus badRequest = duplicateUsernameException.getHttpStatus();
-        ApiException apiException = new ApiException(duplicateUsernameException.getMessage(),
+    @ExceptionHandler(UserException.class)
+    public ResponseEntity<Object> handleApiRequestException(UserException userException) {
+        HttpStatus badRequest = userException.getHttpStatus();
+        ApiException apiException = new ApiException(userException.getMessage(),
                 badRequest,
-                duplicateUsernameException.getTimestamp());
+                userException.getTimestamp());
         return new ResponseEntity<>(apiException, badRequest);
     }
 

@@ -1,7 +1,7 @@
 package com.example.sportingbet.service;
 
 import com.example.sportingbet.dao.UserDAO;
-import com.example.sportingbet.exception.DuplicateUsernameException;
+import com.example.sportingbet.exception.UserException;
 import com.example.sportingbet.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -21,7 +21,7 @@ public class UserServiceImpl implements UserService {
         this.userDao = userDao;
     }
 
-    public void insertUser(User user) throws DuplicateUsernameException {
+    public void insertUser(User user) throws UserException {
         userDao.insertUser(user);
     }
 

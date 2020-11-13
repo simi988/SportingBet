@@ -1,6 +1,6 @@
 package com.example.sportingbet.service;
 
-import com.example.sportingbet.exception.DuplicateUsernameException;
+import com.example.sportingbet.exception.UserException;
 import com.example.sportingbet.model.User;
 
 import java.util.List;
@@ -8,7 +8,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface UserService {
-    void insertUser(User user) throws DuplicateUsernameException;
+    void insertUser(User user) throws UserException;
 
     List<User> getAllUser();
 

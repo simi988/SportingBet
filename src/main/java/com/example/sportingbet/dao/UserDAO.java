@@ -1,6 +1,6 @@
 package com.example.sportingbet.dao;
 
-import com.example.sportingbet.exception.DuplicateUsernameException;
+import com.example.sportingbet.exception.UserException;
 import com.example.sportingbet.model.User;
 
 import java.util.List;
@@ -8,9 +8,9 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface UserDAO {
-    void insertUser(UUID id, User user) throws DuplicateUsernameException;
+    void insertUser(UUID id, User user) throws UserException;
 
-    default void insertUser(User user) throws DuplicateUsernameException {
+    default void insertUser(User user) throws UserException {
         UUID id = UUID.randomUUID();
         insertUser(id, user);
     }
