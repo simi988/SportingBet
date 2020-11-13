@@ -33,11 +33,11 @@ public class UserServiceImpl implements UserService {
         return userDao.selectUserById(id);
     }
 
-    public void deleteUser(UUID id) {
+    public void deleteUser(UUID id) throws UserException {
         userDao.deleteUserById(id);
     }
 
-    public void updateUser(UUID id, User newUser) {
+    public void updateUser(UUID id, User newUser) throws UserException {
         userDao.updateUserById(id, newUser);
     }
 
@@ -45,7 +45,7 @@ public class UserServiceImpl implements UserService {
         return userDao.getUserMoneyById(id);
     }
 
-    public void updateUserMoneyById(UUID id, double money) {
+    public void updateUserMoneyById(UUID id, double money) throws UserException {
         userDao.updateUserMoneyById(id, money);
     }
 

@@ -14,13 +14,13 @@ public interface UserService {
 
     Optional<User> getUserById(UUID id);
 
-    void deleteUser(UUID id);
+    void deleteUser(UUID id) throws UserException;
 
-    void updateUser(UUID id, User newUser);
+    void updateUser(UUID id, User newUser) throws UserException;
 
     double getUserMoneyById(UUID id);
 
-    void updateUserMoneyById(UUID id, double money);
+    void updateUserMoneyById(UUID id, double money) throws UserException;
 
 
 }

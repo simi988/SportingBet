@@ -19,11 +19,11 @@ public interface UserDAO {
 
     Optional<User> selectUserById(UUID id);
 
-    void deleteUserById(UUID id);
+    void deleteUserById(UUID id) throws UserException;
 
-    void updateUserById(UUID id, User user);
+    void updateUserById(UUID id, User user) throws UserException;
 
     double getUserMoneyById(UUID id);
 
-    void updateUserMoneyById(UUID id, double money);
+    void updateUserMoneyById(UUID id, double money) throws UserException;
 }

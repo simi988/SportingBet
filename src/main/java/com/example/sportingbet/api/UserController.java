@@ -43,17 +43,17 @@ public class UserController {
     }
 
     @DeleteMapping(path = "{id}")
-    public void deleteUserById(@PathVariable("id") UUID id) {
+    public void deleteUserById(@PathVariable("id") UUID id) throws UserException {
         userService.deleteUser(id);
     }
 
     @PutMapping(path = "{id}")
-    public void updateUser(@PathVariable("id") UUID id, @Valid @NonNull @RequestBody User userToUpdate) {
+    public void updateUser(@PathVariable("id") UUID id, @Valid @NonNull @RequestBody User userToUpdate) throws UserException {
         userService.updateUser(id, userToUpdate);
     }
 
     @PutMapping(path = "updateusermoney/{id}/{money}")
-    public void updateUserMoneyById(@PathVariable("id") UUID id, @PathVariable("money") double money) {
+    public void updateUserMoneyById(@PathVariable("id") UUID id, @PathVariable("money") double money) throws UserException {
         userService.updateUserMoneyById(id, money);
     }
 
