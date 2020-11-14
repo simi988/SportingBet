@@ -1,6 +1,7 @@
 package com.example.sportingbet.api;
 
 import com.example.sportingbet.exception.UserException;
+import com.example.sportingbet.model.ApiResponse;
 import com.example.sportingbet.model.User;
 import com.example.sportingbet.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,8 +23,9 @@ public class UserController {
     }
 
     @PostMapping
-    public void insertUser(@Valid @NonNull @RequestBody User user) throws UserException {
-        userService.insertUser(user);
+    public ApiResponse insertUser(@Valid @NonNull @RequestBody User user) throws UserException {
+       return userService.insertUser(user);
+
     }
 
     @GetMapping
@@ -43,18 +45,18 @@ public class UserController {
     }
 
     @DeleteMapping(path = "{id}")
-    public void deleteUserById(@PathVariable("id") UUID id) throws UserException {
-        userService.deleteUser(id);
+    public ApiResponse deleteUserById(@PathVariable("id") UUID id) throws UserException {
+       return userService.deleteUser(id);
     }
 
     @PutMapping(path = "{id}")
-    public void updateUser(@PathVariable("id") UUID id, @Valid @NonNull @RequestBody User userToUpdate) throws UserException {
-        userService.updateUser(id, userToUpdate);
+    public ApiResponse updateUser(@PathVariable("id") UUID id, @Valid @NonNull @RequestBody User userToUpdate) throws UserException {
+      return  userService.updateUser(id, userToUpdate);
     }
 
     @PutMapping(path = "updateusermoney/{id}/{money}")
-    public void updateUserMoneyById(@PathVariable("id") UUID id, @PathVariable("money") double money) throws UserException {
-        userService.updateUserMoneyById(id, money);
+    public ApiResponse updateUserMoneyById(@PathVariable("id") UUID id, @PathVariable("money") double money) throws UserException {
+       return userService.updateUserMoneyById(id, money);
     }
 
 }

@@ -2,6 +2,7 @@ package com.example.sportingbet.service;
 
 import com.example.sportingbet.dao.UserDAO;
 import com.example.sportingbet.exception.UserException;
+import com.example.sportingbet.model.ApiResponse;
 import com.example.sportingbet.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -21,8 +22,8 @@ public class UserServiceImpl implements UserService {
         this.userDao = userDao;
     }
 
-    public void insertUser(User user) throws UserException {
-        userDao.insertUser(user);
+    public ApiResponse insertUser(User user) throws UserException {
+        return userDao.insertUser(user);
     }
 
     public List<User> getAllUser() {
@@ -33,20 +34,20 @@ public class UserServiceImpl implements UserService {
         return userDao.selectUserById(id);
     }
 
-    public void deleteUser(UUID id) throws UserException {
-        userDao.deleteUserById(id);
+    public ApiResponse deleteUser(UUID id) throws UserException {
+        return userDao.deleteUserById(id);
     }
 
-    public void updateUser(UUID id, User newUser) throws UserException {
-        userDao.updateUserById(id, newUser);
+    public ApiResponse updateUser(UUID id, User newUser) throws UserException {
+        return userDao.updateUserById(id, newUser);
     }
 
     public double getUserMoneyById(UUID id) {
         return userDao.getUserMoneyById(id);
     }
 
-    public void updateUserMoneyById(UUID id, double money) throws UserException {
-        userDao.updateUserMoneyById(id, money);
+    public ApiResponse updateUserMoneyById(UUID id, double money) throws UserException {
+        return userDao.updateUserMoneyById(id, money);
     }
 
 }
