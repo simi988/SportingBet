@@ -1,7 +1,6 @@
 package com.example.sportingbet.dao;
 
 import com.example.sportingbet.exception.UserException;
-import com.example.sportingbet.model.ApiResponse;
 import com.example.sportingbet.model.User;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Repository;
@@ -21,11 +20,11 @@ public class FakeUserDAO implements UserDAO {
     private final List<User> dataBase = new ArrayList<>();
 
     @Override
-    public ApiResponse insertUser(UUID id, User user) throws UserException {
+    public boolean insertUser(UUID id, User user) throws UserException {
         validateUser(user);
         int size = dataBase.size();
         dataBase.add(new User(id, user.getName(), user.getMoney(), user.getUserName(), user.getPassword()));
-        return validateOperation(user, "added", size + 1 == dataBase.size());
+        return size + 1 == dataBase.size();
     }
 
     @Override
@@ -40,19 +39,19 @@ public class FakeUserDAO implements UserDAO {
     }
 
     @Override
-    public ApiResponse deleteUserById(UUID id) throws UserException {
+    public boolean deleteUserById(UUID id) throws UserException {
         Optional<User> deleteUser = selectUserById(id);
         if (deleteUser.isEmpty()) {
-            return null;
+            throw new UserException("User don't exist", HttpStatus.BAD_REQUEST, ZonedDateTime.now(ZoneId.of("Z")));
         }
         int size = dataBase.size();
         User user = deleteUser.get();
         dataBase.remove(user);
-        return validateOperation(user, "deleted", size - 1 == dataBase.size());
+        return size - 1 == dataBase.size();
     }
 
     @Override
-    public ApiResponse updateUserById(UUID id, User updateUser) throws UserException {
+    public boolean updateUserById(UUID id, User updateUser) throws UserException {
         int size = dataBase.size();
         selectUserById(id)
                 .map(user -> {
@@ -64,8 +63,7 @@ public class FakeUserDAO implements UserDAO {
                     return 0;
                 });
         int sizeAfterUpdate = dataBase.size();
-        return size == sizeAfterUpdate ? validateOperation(updateUser, "update", true) :
-                validateOperation(updateUser, "update", false);
+        return size == sizeAfterUpdate;
     }
 
 
@@ -77,14 +75,13 @@ public class FakeUserDAO implements UserDAO {
     }
 
     @Override
-    public ApiResponse updateUserMoneyById(UUID id, double money) throws UserException {
+    public boolean updateUserMoneyById(UUID id, double money) throws UserException {
         int size = dataBase.size();
         Optional<User> optionalUser = selectUserById(id);
         User user = optionalUser.get();
         user.setMoney(money);
         int sizeAfterUpdate = dataBase.size();
-        return size == sizeAfterUpdate ? validateOperation(user, "update", true) :
-                validateOperation(user, "update", false);
+        return size == sizeAfterUpdate;
     }
 
     private void validateUser(User user) throws UserException {
@@ -102,14 +99,5 @@ public class FakeUserDAO implements UserDAO {
         }
     }
 
-    private ApiResponse validateOperation(User user, String name, boolean b) throws UserException {
-        if (b) {
-            String message = "The user " + user.getUserName() + " has " + name;
-            return new ApiResponse(message, HttpStatus.OK, ZonedDateTime.now(ZoneId.of("Z")));
-        } else {
-            String message = "The user " + user.getUserName() + " can't " + name;
-            throw new UserException(message, HttpStatus.OK, ZonedDateTime.now(ZoneId.of("Z")));
-        }
-    }
 
 }
