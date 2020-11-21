@@ -17,13 +17,13 @@ public interface UserDAO {
 
     List<User> selectAllUser();
 
-    Optional<User> selectUserById(UUID id);
+    Optional<User> selectUserById(UUID id) throws UserException;
 
     boolean deleteUserById(UUID id) throws UserException;
 
     boolean updateUserById(UUID id, User user) throws UserException;
 
-    double getUserMoneyById(UUID id);
+    double getUserMoneyById(UUID id) throws UserException;
 
     boolean updateUserMoneyById(UUID id, double money) throws UserException;
 }

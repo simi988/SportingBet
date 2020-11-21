@@ -28,9 +28,8 @@ public class UserController {
 
     @PostMapping
     public ResponseEntity<Object> insertUser(@Valid @NonNull @RequestBody User user) throws UserException {
-        boolean b = userService.insertUser(user);
-        return giveResponse(user, "added", b);
-
+        boolean response = userService.insertUser(user);
+        return giveResponse(user, "added", response);
     }
 
     @GetMapping
@@ -39,42 +38,38 @@ public class UserController {
     }
 
     @GetMapping(path = "getuser/{id}")
-    public User getUserById(@PathVariable("id") UUID id) {
-        return userService.getUserById(id)
-                .orElse(null);
+    public User getUserById(@PathVariable("id") UUID id) throws UserException {
+        return userService.getUserById(id);
     }
 
     @GetMapping(path = "getusermoney/{id}")
-    public double getUserMoneyById(@PathVariable("id") UUID id) {
+    public double getUserMoneyById(@PathVariable("id") UUID id) throws UserException {
         return userService.getUserMoneyById(id);
     }
 
     @DeleteMapping(path = "{id}")
     public ResponseEntity<Object> deleteUserById(@PathVariable("id") UUID id) throws UserException {
-        User userById = getUserById(id);
-        boolean b = userService.deleteUser(id);
-        return giveResponse(userById, "deleted", b);
+        boolean response = userService.deleteUser(id);
+        return giveResponse(userService.getUserById(id), "deleted", response);
     }
 
     @PutMapping(path = "{id}")
     public ResponseEntity<Object> updateUser(@PathVariable("id") UUID id, @Valid @NonNull @RequestBody User userToUpdate) throws UserException {
-        boolean b = userService.updateUser(id, userToUpdate);
-        return giveResponse(userToUpdate, "updated", b);
+        boolean response = userService.updateUser(id, userToUpdate);
+        return giveResponse(userToUpdate, "updated", response);
     }
 
     @PutMapping(path = "updateusermoney/{id}/{money}")
     public ResponseEntity<Object> updateUserMoneyById(@PathVariable("id") UUID id, @PathVariable("money") double money) throws UserException {
-        boolean b = userService.updateUserMoneyById(id, money);
-        return giveResponse(getUserById(id), "update user money by id", b);
+        boolean response = userService.updateUserMoneyById(id, money);
+        return giveResponse(getUserById(id), "update user money by id", response);
     }
 
-    @ResponseBody
-    private ResponseEntity<Object> giveResponse(User user, String name, boolean b) throws UserException {
-        if (b) {
+    private ResponseEntity<Object> giveResponse(User user, String name, boolean response) throws UserException {
+        if (response) {
             String message = "The user " + user.getUserName() + " has " + name;
-            HttpStatus ok = HttpStatus.OK;
-            ApiResponse apiResponse = new ApiResponse(message, ok, ZonedDateTime.now(ZoneId.of("Z")));
-            return new ResponseEntity<>(apiResponse, ok);
+            ApiResponse apiResponse = new ApiResponse(message, HttpStatus.OK, ZonedDateTime.now(ZoneId.of("Z")));
+            return new ResponseEntity<>(apiResponse, HttpStatus.OK);
         } else {
             String message = "The user " + user.getUserName() + " can't " + name;
             throw new UserException(message, HttpStatus.BAD_REQUEST, ZonedDateTime.now(ZoneId.of("Z")));

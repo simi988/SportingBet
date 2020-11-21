@@ -5,8 +5,11 @@ import com.example.sportingbet.exception.UserException;
 import com.example.sportingbet.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -29,8 +32,12 @@ public class UserServiceImpl implements UserService {
         return userDao.selectAllUser();
     }
 
-    public Optional<User> getUserById(UUID id) {
-        return userDao.selectUserById(id);
+    public User getUserById(UUID id) throws UserException {
+        Optional<User> user = userDao.selectUserById(id);
+        if (user.isPresent()) {
+            return user.get();
+        }
+        throw new UserException("User don't exist", HttpStatus.BAD_REQUEST, ZonedDateTime.now(ZoneId.of("Z")));
     }
 
     public boolean deleteUser(UUID id) throws UserException {
@@ -41,7 +48,7 @@ public class UserServiceImpl implements UserService {
         return userDao.updateUserById(id, newUser);
     }
 
-    public double getUserMoneyById(UUID id) {
+    public double getUserMoneyById(UUID id) throws UserException {
         return userDao.getUserMoneyById(id);
     }
 

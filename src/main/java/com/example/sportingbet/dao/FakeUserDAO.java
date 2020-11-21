@@ -22,9 +22,7 @@ public class FakeUserDAO implements UserDAO {
     @Override
     public boolean insertUser(UUID id, User user) throws UserException {
         validateUser(user);
-        int size = dataBase.size();
-        dataBase.add(new User(id, user.getName(), user.getMoney(), user.getUserName(), user.getPassword()));
-        return size + 1 == dataBase.size();
+        return dataBase.add(new User(id, user.getName(), user.getMoney(), user.getUserName(), user.getPassword()));
     }
 
     @Override
@@ -36,6 +34,7 @@ public class FakeUserDAO implements UserDAO {
     public Optional<User> selectUserById(UUID id) {
         return dataBase.stream().filter(client -> client.getId().equals(id))
                 .findFirst();
+
     }
 
     @Override
@@ -44,44 +43,44 @@ public class FakeUserDAO implements UserDAO {
         if (deleteUser.isEmpty()) {
             throw new UserException("User don't exist", HttpStatus.BAD_REQUEST, ZonedDateTime.now(ZoneId.of("Z")));
         }
-        int size = dataBase.size();
         User user = deleteUser.get();
-        dataBase.remove(user);
-        return size - 1 == dataBase.size();
+        return dataBase.remove(user);
     }
 
     @Override
-    public boolean updateUserById(UUID id, User updateUser) throws UserException {
-        int size = dataBase.size();
-        selectUserById(id)
+    public boolean updateUserById(UUID id, User updateUser) {
+        Optional<Boolean> aBoolean = selectUserById(id)
                 .map(user -> {
                     int indexOfUserToUpdate = dataBase.indexOf(user);
                     if (indexOfUserToUpdate >= 0) {
                         dataBase.set(indexOfUserToUpdate, new User(id, updateUser.getName(), updateUser.getMoney(), updateUser.getUserName(), updateUser.getPassword()));
-                        return 1;
+                        return true;
                     }
-                    return 0;
+                    return false;
                 });
-        int sizeAfterUpdate = dataBase.size();
-        return size == sizeAfterUpdate;
+        return aBoolean.isPresent();
     }
 
 
     @Override
-    public double getUserMoneyById(UUID id) {
+    public double getUserMoneyById(UUID id) throws UserException {
         Optional<User> optionalUser = selectUserById(id);
-        User user = optionalUser.get();
-        return user.getMoney();
+        if (optionalUser.isPresent()) {
+            User user = optionalUser.get();
+            return user.getMoney();
+        }
+        throw new UserException("The user is not exist", HttpStatus.BAD_REQUEST, ZonedDateTime.now(ZoneId.of("Z")));
     }
 
     @Override
-    public boolean updateUserMoneyById(UUID id, double money) throws UserException {
-        int size = dataBase.size();
+    public boolean updateUserMoneyById(UUID id, double money) {
         Optional<User> optionalUser = selectUserById(id);
-        User user = optionalUser.get();
-        user.setMoney(money);
-        int sizeAfterUpdate = dataBase.size();
-        return size == sizeAfterUpdate;
+        if (optionalUser.isPresent()) {
+            User user = optionalUser.get();
+            user.setMoney(money);
+            return true;
+        }
+        return false;
     }
 
     private void validateUser(User user) throws UserException {
