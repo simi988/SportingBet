@@ -34,7 +34,6 @@ public class FakeUserDAO implements UserDAO {
     public Optional<User> selectUserById(UUID id) {
         return dataBase.stream().filter(client -> client.getId().equals(id))
                 .findFirst();
-
     }
 
     @Override
