@@ -13,8 +13,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
@@ -65,6 +63,18 @@ public class UserController {
     public ResponseEntity<Object> updateUserMoneyById(@PathVariable("id") UUID id, @PathVariable("money") double money) throws UserException {
         boolean response = userService.updateUserMoneyById(id, money);
         return giveResponse(getUserById(id), "update user money by id", response);
+    }
+
+    @GetMapping(path = "login/{username}/{password}")
+    public ResponseEntity<Object> login(@PathVariable String username, @PathVariable String password) throws UserException {
+        User user = userService.login(username, password);
+        return new ResponseEntity<>(user, HttpStatus.OK);
+    }
+
+    @GetMapping(path = "logout")
+    public ResponseEntity<Object> logout() throws UserException {
+        User logout = userService.logout();
+        return new ResponseEntity<>(logout, HttpStatus.OK);
     }
 
     private ResponseEntity<Object> giveResponse(User user, String name, boolean response) throws UserException {

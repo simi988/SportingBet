@@ -21,5 +21,7 @@ public interface UserService {
 
     boolean updateUserMoneyById(UUID id, double money) throws UserException;
 
+    User login(String username, String password) throws UserException;
 
+    User logout() throws UserException;
 }
