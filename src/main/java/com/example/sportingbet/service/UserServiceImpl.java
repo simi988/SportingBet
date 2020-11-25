@@ -9,14 +9,14 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
 @Service
 public class UserServiceImpl implements UserService {
+    @Autowired
+    private LoginUser instance;
 
     private final UserDAO userDao;
 
@@ -38,7 +38,7 @@ public class UserServiceImpl implements UserService {
         if (user.isPresent()) {
             return user.get();
         }
-        throw new UserException("User don't exist", HttpStatus.BAD_REQUEST, ZonedDateTime.now(ZoneId.of("Z")));
+        throw new UserException("User don't exist", HttpStatus.BAD_REQUEST);
     }
 
     public boolean deleteUser(UUID id) throws UserException {
@@ -58,27 +58,28 @@ public class UserServiceImpl implements UserService {
     }
 
     public User login(String username, String password) throws UserException {
+
+        if (instance.getUser() != null) {
+            throw new UserException("Session is full", HttpStatus.BAD_REQUEST);
+        }
         List<User> users = userDao.selectAllUser();
         for (User user : users) {
             if (user.getUserName().equals(username) && user.getPassword().equals(password)) {
-                if (LoginUser.getUser() != null) {
-                    throw new UserException("Session is full", HttpStatus.BAD_REQUEST, ZonedDateTime.now(ZoneId.of("Z")));
-                }
-                LoginUser.setUser(user);
+                instance.setUser(user);
                 return user;
             }
 
         }
-        throw new UserException("User or Password incorrect", HttpStatus.BAD_REQUEST, ZonedDateTime.now(ZoneId.of("Z")));
+        throw new UserException("User or Password incorrect", HttpStatus.BAD_REQUEST);
     }
 
     public User logout() throws UserException {
-        User user = LoginUser.getUser();
-        if (user == null) {
-            throw new UserException("Login first", HttpStatus.BAD_REQUEST, ZonedDateTime.now(ZoneId.of("Z")));
-        }
-        LoginUser.setUser(null);
 
+        User user = instance.getUser();
+        if (user == null) {
+            throw new UserException("Login first", HttpStatus.BAD_REQUEST);
+        }
+        instance.setUser(null);
         return user;
     }
 

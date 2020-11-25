@@ -5,8 +5,6 @@ import com.example.sportingbet.model.User;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Repository;
 
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -40,7 +38,7 @@ public class FakeUserDAO implements UserDAO {
     public boolean deleteUserById(UUID id) throws UserException {
         Optional<User> deleteUser = selectUserById(id);
         if (deleteUser.isEmpty()) {
-            throw new UserException("User don't exist", HttpStatus.BAD_REQUEST, ZonedDateTime.now(ZoneId.of("Z")));
+            throw new UserException("User don't exist", HttpStatus.BAD_REQUEST);
         }
         User user = deleteUser.get();
         return dataBase.remove(user);
@@ -68,7 +66,7 @@ public class FakeUserDAO implements UserDAO {
             User user = optionalUser.get();
             return user.getMoney();
         }
-        throw new UserException("The user is not exist", HttpStatus.BAD_REQUEST, ZonedDateTime.now(ZoneId.of("Z")));
+        throw new UserException("The user is not exist", HttpStatus.BAD_REQUEST);
     }
 
     @Override
@@ -87,12 +85,12 @@ public class FakeUserDAO implements UserDAO {
         Matcher match = pattern.matcher(user.getName());
 
         if (match.find()) {
-            throw new UserException("The name must not contain any special characters", HttpStatus.BAD_REQUEST, ZonedDateTime.now(ZoneId.of("Z")));
+            throw new UserException("The name must not contain any special characters", HttpStatus.BAD_REQUEST);
         }
 
         for (User userName : dataBase) {
             if (user.getUserName().equals(userName.getUserName())) {
-                throw new UserException("Username is already exist", HttpStatus.BAD_REQUEST, ZonedDateTime.now(ZoneId.of("Z")));
+                throw new UserException("Username is already exist", HttpStatus.BAD_REQUEST);
             }
         }
     }

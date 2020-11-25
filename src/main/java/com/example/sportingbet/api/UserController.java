@@ -84,7 +84,7 @@ public class UserController {
             return new ResponseEntity<>(apiResponse, HttpStatus.OK);
         } else {
             String message = "The user " + user.getUserName() + " can't " + name;
-            throw new UserException(message, HttpStatus.BAD_REQUEST, ZonedDateTime.now(ZoneId.of("Z")));
+            throw new UserException(message, HttpStatus.BAD_REQUEST);
         }
     }
 

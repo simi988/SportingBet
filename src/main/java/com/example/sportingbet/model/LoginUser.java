@@ -1,17 +1,19 @@
 package com.example.sportingbet.model;
 
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
+
+@Component
+@Scope("singleton")
 public class LoginUser {
 
-    private static User user;
+    private User user;
 
-    private LoginUser() {
+    public User getUser() {
+        return user;
     }
 
-    public static User getUser() {
-        return LoginUser.user;
-    }
-
-    public static void setUser(User user) {
-       LoginUser.user = user;
+    public void setUser(User user) {
+        this.user = user;
     }
 }
