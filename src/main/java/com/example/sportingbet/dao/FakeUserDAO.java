@@ -18,7 +18,7 @@ public class FakeUserDAO implements UserDAO {
     private final List<User> dataBase = new ArrayList<>();
 
     @Override
-    public boolean insertUser(UUID id, User user) throws UserException {
+    public boolean insertUser(Long id, User user) throws UserException {
         validateUser(user);
         return dataBase.add(new User(id, user.getName(), user.getMoney(), user.getUserName(), user.getPassword()));
     }

@@ -21,7 +21,7 @@ public class UserServiceImpl implements UserService {
     private final UserDAO userDao;
 
     @Autowired
-    public UserServiceImpl(@Qualifier("fakeDao") UserDAO userDao) {
+    public UserServiceImpl(@Qualifier("postgres") UserDAO userDao) {
         this.userDao = userDao;
     }
 
@@ -68,7 +68,6 @@ public class UserServiceImpl implements UserService {
                 instance.setUser(user);
                 return user;
             }
-
         }
         throw new UserException("User or Password incorrect", HttpStatus.BAD_REQUEST);
     }

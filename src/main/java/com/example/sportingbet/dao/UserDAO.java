@@ -3,15 +3,16 @@ package com.example.sportingbet.dao;
 import com.example.sportingbet.exception.UserException;
 import com.example.sportingbet.model.User;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
 public interface UserDAO {
-    boolean insertUser(UUID id, User user) throws UserException;
+    boolean insertUser(Long id, User user) throws UserException;
 
     default boolean insertUser(User user) throws UserException {
-        UUID id = UUID.randomUUID();
+        Long id = null;
         return insertUser(id, user);
     }
 

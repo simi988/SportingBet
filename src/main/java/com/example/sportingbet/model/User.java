@@ -6,7 +6,7 @@ import javax.validation.constraints.NotBlank;
 import java.util.UUID;
 
 public class User {
-    private final UUID id;
+    private final Long id;
     @NotBlank
     private final String name;
     private double money;
@@ -16,7 +16,7 @@ public class User {
     private final String password;
 
 
-    public User(@JsonProperty("id") UUID id,
+    public User(@JsonProperty("id") Long id,
                 @JsonProperty("name") String name,
                 @JsonProperty("money") double money,
                 @JsonProperty("username") String username,
@@ -31,7 +31,7 @@ public class User {
 
 
 
-    public UUID getId() {
+    public Long getId() {
         return id;
     }
 
