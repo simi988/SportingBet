@@ -4,22 +4,21 @@ import com.example.sportingbet.exception.UserException;
 import com.example.sportingbet.model.User;
 
 import java.util.List;
-import java.util.UUID;
 
 public interface UserService {
     boolean insertUser(User user) throws UserException;
 
     List<User> getAllUser();
 
-    User getUserById(UUID id) throws UserException;
+    User getUserById(Long id) throws UserException;
 
-    boolean deleteUser(UUID id) throws UserException;
+    boolean deleteUser(Long id) throws UserException;
 
-    boolean updateUser(UUID id, User newUser) throws UserException;
+    boolean updateUser(Long id, User newUser) throws UserException;
 
-    double getUserMoneyById(UUID id) throws UserException;
+    double getUserMoneyById(Long id) throws UserException;
 
-    boolean updateUserMoneyById(UUID id, double money) throws UserException;
+    boolean updateUserMoneyById(Long id, double money) throws UserException;
 
     User login(String username, String password) throws UserException;
 

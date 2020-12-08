@@ -1,0 +1,9 @@
+{
+  "properties": [
+    {
+      "name": "runtime('com.oracle",
+      "type": "java.lang.String",
+      "description": "Description for runtime('com.oracle."
+  }
+
+] }

@@ -3,28 +3,23 @@ package com.example.sportingbet.dao;
 import com.example.sportingbet.exception.UserException;
 import com.example.sportingbet.model.User;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 public interface UserDAO {
-    boolean insertUser(Long id, User user) throws UserException;
-
-    default boolean insertUser(User user) throws UserException {
-        Long id = null;
-        return insertUser(id, user);
-    }
+    void insert(User user) throws UserException;
 
     List<User> selectAllUser();
 
-    Optional<User> selectUserById(UUID id) throws UserException;
+    Optional<User> selectUserById(Long id) throws UserException;
 
-    boolean deleteUserById(UUID id) throws UserException;
+    boolean deleteUserById(Long id) throws UserException;
 
-    boolean updateUserById(UUID id, User user) throws UserException;
+    boolean updateUserById(Long id, User user) throws UserException;
 
-    double getUserMoneyById(UUID id) throws UserException;
+    double getUserMoneyById(Long id) throws UserException;
 
-    boolean updateUserMoneyById(UUID id, double money) throws UserException;
+    boolean updateUserMoneyById(Long id, double money) throws UserException;
+
+
 }

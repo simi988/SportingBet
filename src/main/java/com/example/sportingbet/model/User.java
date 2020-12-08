@@ -3,10 +3,9 @@ package com.example.sportingbet.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.validation.constraints.NotBlank;
-import java.util.UUID;
 
 public class User {
-    private final Long id;
+    private Long id;
     @NotBlank
     private final String name;
     private double money;
@@ -16,19 +15,18 @@ public class User {
     private final String password;
 
 
-    public User(@JsonProperty("id") Long id,
-                @JsonProperty("name") String name,
-                @JsonProperty("money") double money,
-                @JsonProperty("username") String username,
-                @JsonProperty("password") String password) {
+    public User(
+            @JsonProperty("id") Long id,
+            @JsonProperty("name") String name,
+            @JsonProperty("money") double money,
+            @JsonProperty("username") String username,
+            @JsonProperty("password") String password) {
         this.id = id;
         this.name = name;
         this.money = money;
         this.username = username;
         this.password = password;
     }
-
-
 
 
     public Long getId() {

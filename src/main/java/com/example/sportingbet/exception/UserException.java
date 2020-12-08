@@ -9,12 +9,12 @@ import java.time.ZonedDateTime;
 public class UserException extends Exception {
 
     private final HttpStatus httpStatus;
-    private ZonedDateTime timestamp;
+    private final ZonedDateTime timestamp;
 
     public UserException(String string, HttpStatus httpStatus) {
         super(string);
         this.httpStatus = httpStatus;
-        timestamp= ZonedDateTime.now(ZoneId.of("Z"));
+        timestamp = ZonedDateTime.now(ZoneId.of("Z"));
     }
 
     public HttpStatus getHttpStatus() {

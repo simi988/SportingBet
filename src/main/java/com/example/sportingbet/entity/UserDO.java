@@ -1,32 +1,22 @@
 package com.example.sportingbet.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "user")
 public class UserDO {
     @Id
-   private final Long id;
-    @Column
-   private final String name;
-    @Column
-    private final double money;
-    @Column
-    private final   String username;
-    @Column
-    private final String password;
-
-    public UserDO(Long id, String name, double money, String username, String password) {
-        this.id = id;
-        this.name = name;
-        this.money = money;
-        this.username = username;
-        this.password = password;
-    }
-
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "user_id")
+    private Long id;
+    @Column(name = "user_name")
+    private String name;
+    @Column(name = "user_money")
+    private double money;
+    @Column(name = "user_username", unique = true)
+    private String username;
+    @Column(name = "user_password")
+    private String password;
 
     public Long getId() {
         return id;
@@ -36,15 +26,31 @@ public class UserDO {
         return name;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public double getMoney() {
         return money;
+    }
+
+    public void setMoney(double money) {
+        this.money = money;
     }
 
     public String getUsername() {
         return username;
     }
 
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
     public String getPassword() {
         return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }
