@@ -2,8 +2,9 @@ package com.example.sportingbet.dao;
 
 import com.example.sportingbet.entity.UserDO;
 import com.example.sportingbet.exception.UserException;
-import com.example.sportingbet.mapping.UserConvertor;
+import com.example.sportingbet.mapping.UserMapper;
 import com.example.sportingbet.model.User;
+import com.example.sportingbet.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Repository;
@@ -19,13 +20,13 @@ public class UserDAOImpl implements UserDAO {
     @Autowired
     private UserRepository userRepository;
 
-    private final UserConvertor userConvertor = new UserConvertor();
+    private final UserMapper userMapper = new UserMapper();
     public static final String ALPHABET = "[^A-Za-z0-9]";
 
     @Override
     public void insert(User user) throws UserException {
         validateUser(user);
-        UserDO userDO = userConvertor.convertToUserDo(user);
+        UserDO userDO = userMapper.mapToDO(user);
         userRepository.save(userDO);
     }
 
@@ -34,7 +35,7 @@ public class UserDAOImpl implements UserDAO {
         List<User> users = new ArrayList<>();
         Iterable<UserDO> all = userRepository.findAll();
         for (UserDO userDO : all) {
-            User user = userConvertor.convertToUser(userDO);
+            User user = userMapper.mapToDto(userDO);
             users.add(user);
         }
         return users;
@@ -45,7 +46,7 @@ public class UserDAOImpl implements UserDAO {
         Optional<UserDO> optionalUserDO = userRepository.findById(id);
         if (optionalUserDO.isPresent()) {
             UserDO userDO = optionalUserDO.get();
-            User user = userConvertor.convertToUser(userDO);
+            User user = userMapper.mapToDto(userDO);
             return Optional.ofNullable(user);
         }
         throw new UserException("User don't exist", HttpStatus.BAD_REQUEST);
@@ -100,16 +101,9 @@ public class UserDAOImpl implements UserDAO {
 
     private void validateUser(User user) throws UserException {
         Pattern pattern = Pattern.compile(ALPHABET);
-        Matcher match = pattern.matcher(user.getName());
-        List<User> users = selectAllUser();
+        Matcher match = pattern.matcher(user.getUsername());
         if (match.find()) {
             throw new UserException("The name must not contain any special characters", HttpStatus.BAD_REQUEST);
-        }
-
-        for (User userName : users) {
-            if (user.getUserName().equals(userName.getUserName())) {
-                throw new UserException("Username is already exist", HttpStatus.BAD_REQUEST);
-            }
         }
     }
 }

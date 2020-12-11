@@ -7,15 +7,19 @@ import javax.persistence.*;
 public class UserDO {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "user_id")
+    @Column(name = "id")
     private Long id;
-    @Column(name = "user_name")
+
+    @Column(name = "name")
     private String name;
-    @Column(name = "user_money")
+
+    @Column(name = "money")
     private double money;
-    @Column(name = "user_username", unique = true)
+
+    @Column(name = "username", unique = true)
     private String username;
-    @Column(name = "user_password")
+
+    @Column(name = "password")
     private String password;
 
     public Long getId() {

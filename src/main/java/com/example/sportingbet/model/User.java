@@ -7,12 +7,12 @@ import javax.validation.constraints.NotBlank;
 public class User {
     private Long id;
     @NotBlank
-    private final String name;
+    private String name;
     private double money;
     @NotBlank
-    private final String username;
+    private String username;
     @NotBlank
-    private final String password;
+    private String password;
 
 
     public User(
@@ -28,29 +28,47 @@ public class User {
         this.password = password;
     }
 
+    public User() {
+
+    }
 
     public Long getId() {
         return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getName() {
         return name;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public double getMoney() {
         return money;
     }
 
-    public String getUserName() {
+    public void setMoney(double money) {
+        this.money = money;
+    }
+
+    public String getUsername() {
         return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getPassword() {
         return password;
     }
 
-    public User setMoney(double money) {
-        this.money = money;
-        return null;
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

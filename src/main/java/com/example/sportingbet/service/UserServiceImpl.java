@@ -24,8 +24,8 @@ public class UserServiceImpl implements UserService {
     }
 
     public boolean insertUser(User user) throws UserException {
-         userDao.insert(user);
-         return true;
+        userDao.insert(user);
+        return true;
     }
 
     public List<User> getAllUser() {
@@ -33,7 +33,7 @@ public class UserServiceImpl implements UserService {
     }
 
     public User getUserById(Long id) throws UserException {
-       return  userDao.selectUserById(id).orElseThrow(()->new UserException("User don't exist", HttpStatus.BAD_REQUEST));
+        return userDao.selectUserById(id).orElseThrow(() -> new UserException("User don't exist", HttpStatus.BAD_REQUEST));
     }
 
     public boolean deleteUser(Long id) throws UserException {
@@ -59,7 +59,7 @@ public class UserServiceImpl implements UserService {
         }
         List<User> users = userDao.selectAllUser();
         for (User user : users) {
-            if (user.getUserName().equals(username) && user.getPassword().equals(password)) {
+            if (user.getUsername().equals(username) && user.getPassword().equals(password)) {
                 instance.setUser(user);
                 return user;
             }

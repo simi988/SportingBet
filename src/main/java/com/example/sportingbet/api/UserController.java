@@ -79,11 +79,11 @@ public class UserController {
 
     private ResponseEntity<Object> giveResponse(User user, String name, boolean response) throws UserException {
         if (response) {
-            String message = "The user " + user.getUserName() + " has been " + name;
+            String message = "The user " + user.getUsername() + " has been " + name;
             ApiResponse apiResponse = new ApiResponse(message, HttpStatus.OK, ZonedDateTime.now(ZoneId.of("Z")));
             return new ResponseEntity<>(apiResponse, HttpStatus.OK);
         } else {
-            String message = "The user " + user.getUserName() + " can't " + name;
+            String message = "The user " + user.getUsername() + " can't " + name;
             throw new UserException(message, HttpStatus.BAD_REQUEST);
         }
     }

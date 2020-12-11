@@ -1,4 +1,4 @@
-package com.example.sportingbet.dao;
+package com.example.sportingbet.repository;
 
 import com.example.sportingbet.entity.UserDO;
 import org.springframework.data.repository.CrudRepository;
