@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import java.sql.SQLException;
 import java.util.List;
 
 @Service
@@ -23,7 +24,7 @@ public class UserServiceImpl implements UserService {
         this.userDao = userDao;
     }
 
-    public boolean insertUser(User user) throws UserException {
+    public boolean insertUser(User user) throws UserException, SQLException {
         userDao.insert(user);
         return true;
     }

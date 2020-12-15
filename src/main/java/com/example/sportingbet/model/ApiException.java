@@ -2,6 +2,7 @@ package com.example.sportingbet.model;
 
 import org.springframework.http.HttpStatus;
 
+import java.time.ZoneId;
 import java.time.ZonedDateTime;
 
 public class ApiException {
@@ -10,10 +11,10 @@ public class ApiException {
     private final ZonedDateTime timestamp;
 
 
-    public ApiException(String message, HttpStatus httpStatus, ZonedDateTime timestamp) {
+    public ApiException(String message, HttpStatus httpStatus) {
         this.message = message;
         this.httpStatus = httpStatus;
-        this.timestamp = timestamp;
+        timestamp = ZonedDateTime.now(ZoneId.of("Z"));
     }
 
     public String getMessage() {

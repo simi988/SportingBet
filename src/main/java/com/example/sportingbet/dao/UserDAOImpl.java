@@ -6,6 +6,7 @@ import com.example.sportingbet.mapping.UserMapper;
 import com.example.sportingbet.model.User;
 import com.example.sportingbet.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Repository;
 
@@ -27,7 +28,7 @@ public class UserDAOImpl implements UserDAO {
     public void insert(User user) throws UserException {
         validateUser(user);
         UserDO userDO = userMapper.mapToDO(user);
-        userRepository.save(userDO);
+        validateSQL(userDO);
     }
 
     @Override
@@ -105,5 +106,14 @@ public class UserDAOImpl implements UserDAO {
         if (match.find()) {
             throw new UserException("The name must not contain any special characters", HttpStatus.BAD_REQUEST);
         }
+    }
+
+    private void validateSQL(UserDO userDO) throws UserException {
+        try {
+            userRepository.save(userDO);
+        } catch (DataIntegrityViolationException exception) {
+            throw new UserException(exception.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+
     }
 }

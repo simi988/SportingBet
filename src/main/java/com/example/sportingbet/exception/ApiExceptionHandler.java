@@ -13,8 +13,7 @@ public class ApiExceptionHandler {
     public ResponseEntity<Object> handleApiRequestException(UserException userException) {
         HttpStatus badRequest = userException.getHttpStatus();
         ApiException apiException = new ApiException(userException.getMessage(),
-                badRequest,
-                userException.getTimestamp());
+                badRequest);
         return new ResponseEntity<>(apiException, badRequest);
     }
 

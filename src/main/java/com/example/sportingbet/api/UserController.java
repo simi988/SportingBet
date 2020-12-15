@@ -1,6 +1,7 @@
 package com.example.sportingbet.api;
 
 import com.example.sportingbet.exception.UserException;
+import com.example.sportingbet.model.ApiException;
 import com.example.sportingbet.model.ApiResponse;
 import com.example.sportingbet.model.User;
 import com.example.sportingbet.service.UserService;
@@ -11,6 +12,8 @@ import org.springframework.lang.NonNull;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.List;
@@ -26,7 +29,7 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<Object> insertUser(@Valid @NonNull @RequestBody User user) throws UserException {
+    public ResponseEntity<Object> insertUser(@Valid @NonNull @RequestBody User user) throws UserException, SQLException {
         boolean response = userService.insertUser(user);
         return giveResponse(user, "added", response);
     }
