@@ -27,9 +27,9 @@ public class UserServiceImpl implements UserService {
 
     public boolean insertUser(User user) throws UserException {
         try {
-        userDao.insert(user);
-        return true;
-        }catch (DataIntegrityViolationException exception) {
+            userDao.insert(user);
+            return true;
+        } catch (DataIntegrityViolationException exception) {
             throw new UserException(exception.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
@@ -45,15 +45,15 @@ public class UserServiceImpl implements UserService {
     public boolean deleteUser(Long id) throws UserException {
         try {
             return userDao.deleteUserById(id);
-        }catch (DataIntegrityViolationException exception) {
+        } catch (DataIntegrityViolationException exception) {
             throw new UserException(exception.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 
     public boolean updateUser(Long id, User newUser) throws UserException {
-        try{
+        try {
             return userDao.updateUserById(id, newUser);
-        }catch (DataIntegrityViolationException exception) {
+        } catch (DataIntegrityViolationException exception) {
             throw new UserException(exception.getMessage(), HttpStatus.BAD_REQUEST);
         }
 
@@ -64,11 +64,11 @@ public class UserServiceImpl implements UserService {
     }
 
     public boolean updateUserMoneyById(Long id, double money) throws UserException {
-        try{
-        return userDao.updateUserMoneyById(id, money);
-    }catch (DataIntegrityViolationException exception) {
-        throw new UserException(exception.getMessage(), HttpStatus.BAD_REQUEST);
-    }
+        try {
+            return userDao.updateUserMoneyById(id, money);
+        } catch (DataIntegrityViolationException exception) {
+            throw new UserException(exception.getMessage(), HttpStatus.BAD_REQUEST);
+        }
     }
 
     public User login(String username, String password) throws UserException {
@@ -79,8 +79,12 @@ public class UserServiceImpl implements UserService {
         List<User> users = userDao.selectAllUser();
         for (User user : users) {
             if (user.getUsername().equals(username) && user.getPassword().equals(password)) {
-                instance.setUser(user);
-                return user;
+                try {
+                    instance.setUser(user);
+                    return user;
+                } catch (DataIntegrityViolationException exception) {
+                    throw new UserException(exception.getMessage(), HttpStatus.BAD_REQUEST);
+                }
             }
         }
         throw new UserException("User or Password incorrect", HttpStatus.BAD_REQUEST);
@@ -92,8 +96,12 @@ public class UserServiceImpl implements UserService {
         if (user == null) {
             throw new UserException("Login first", HttpStatus.BAD_REQUEST);
         }
-        instance.setUser(null);
-        return user;
+        try {
+            instance.setUser(null);
+            return user;
+        } catch (DataIntegrityViolationException exception) {
+            throw new UserException(exception.getMessage(), HttpStatus.BAD_REQUEST);
+        }
     }
 
 }
