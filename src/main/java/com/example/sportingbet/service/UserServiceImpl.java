@@ -6,14 +6,15 @@ import com.example.sportingbet.model.LoginUser;
 import com.example.sportingbet.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import java.sql.SQLException;
 import java.util.List;
 
 @Service
 public class UserServiceImpl implements UserService {
+
     @Autowired
     private LoginUser instance;
 
@@ -24,9 +25,13 @@ public class UserServiceImpl implements UserService {
         this.userDao = userDao;
     }
 
-    public boolean insertUser(User user) throws UserException, SQLException {
+    public boolean insertUser(User user) throws UserException {
+        try {
         userDao.insert(user);
         return true;
+        }catch (DataIntegrityViolationException exception) {
+            throw new UserException(exception.getMessage(), HttpStatus.BAD_REQUEST);
+        }
     }
 
     public List<User> getAllUser() {
@@ -38,11 +43,20 @@ public class UserServiceImpl implements UserService {
     }
 
     public boolean deleteUser(Long id) throws UserException {
-        return userDao.deleteUserById(id);
+        try {
+            return userDao.deleteUserById(id);
+        }catch (DataIntegrityViolationException exception) {
+            throw new UserException(exception.getMessage(), HttpStatus.BAD_REQUEST);
+        }
     }
 
     public boolean updateUser(Long id, User newUser) throws UserException {
-        return userDao.updateUserById(id, newUser);
+        try{
+            return userDao.updateUserById(id, newUser);
+        }catch (DataIntegrityViolationException exception) {
+            throw new UserException(exception.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+
     }
 
     public double getUserMoneyById(Long id) throws UserException {
@@ -50,7 +64,11 @@ public class UserServiceImpl implements UserService {
     }
 
     public boolean updateUserMoneyById(Long id, double money) throws UserException {
+        try{
         return userDao.updateUserMoneyById(id, money);
+    }catch (DataIntegrityViolationException exception) {
+        throw new UserException(exception.getMessage(), HttpStatus.BAD_REQUEST);
+    }
     }
 
     public User login(String username, String password) throws UserException {

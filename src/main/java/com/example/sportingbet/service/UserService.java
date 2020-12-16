@@ -7,7 +7,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 public interface UserService {
-    boolean insertUser(User user) throws UserException, SQLException;
+    boolean insertUser(User user) throws UserException;
 
     List<User> getAllUser();
 

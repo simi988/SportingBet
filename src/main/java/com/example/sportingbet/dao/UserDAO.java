@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface UserDAO {
-    void insert(User user) throws UserException, SQLException;
+    void insert(User user) throws UserException;
 
     List<User> selectAllUser();
 

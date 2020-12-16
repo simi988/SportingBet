@@ -6,7 +6,6 @@ import com.example.sportingbet.mapping.UserMapper;
 import com.example.sportingbet.model.User;
 import com.example.sportingbet.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Repository;
 
@@ -18,6 +17,7 @@ import java.util.regex.Pattern;
 
 @Repository("userdao")
 public class UserDAOImpl implements UserDAO {
+
     @Autowired
     private UserRepository userRepository;
 
@@ -28,7 +28,7 @@ public class UserDAOImpl implements UserDAO {
     public void insert(User user) throws UserException {
         validateUser(user);
         UserDO userDO = userMapper.mapToDO(user);
-        validateSQL(userDO);
+        userRepository.save(userDO);
     }
 
     @Override
@@ -108,12 +108,4 @@ public class UserDAOImpl implements UserDAO {
         }
     }
 
-    private void validateSQL(UserDO userDO) throws UserException {
-        try {
-            userRepository.save(userDO);
-        } catch (DataIntegrityViolationException exception) {
-            throw new UserException(exception.getMessage(), HttpStatus.BAD_REQUEST);
-        }
-
-    }
 }
