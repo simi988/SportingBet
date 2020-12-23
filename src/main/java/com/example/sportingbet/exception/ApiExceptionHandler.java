@@ -11,10 +11,18 @@ public class ApiExceptionHandler {
 
     @ExceptionHandler(UserException.class)
     public ResponseEntity<Object> handleApiRequestException(UserException userException) {
-        HttpStatus badRequest = userException.getHttpStatus();
+        HttpStatus status = userException.getHttpStatus();
         ApiException apiException = new ApiException(userException.getMessage(),
-                badRequest);
-        return new ResponseEntity<>(apiException, badRequest);
+                status);
+        return new ResponseEntity<>(apiException, status);
+    }
+
+    @ExceptionHandler(EventException.class)
+    public ResponseEntity<Object> handleApiRequestException(EventException eventException) {
+        HttpStatus status = eventException.getHttpStatus();
+        ApiException apiException = new ApiException(eventException.getMessage(),
+                status);
+        return new ResponseEntity<>(apiException, status);
     }
 
 }

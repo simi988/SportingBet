@@ -6,7 +6,7 @@ import com.example.sportingbet.model.User;
 public class UserMapper {
 
     public User mapToDto(UserDO userDO) {
-        User user = new User();
+        User user=new User();
         user.setId(userDO.getId());
         user.setMoney(userDO.getMoney());
         user.setName(userDO.getName());

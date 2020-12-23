@@ -22,7 +22,7 @@ public class UserDAOImpl implements UserDAO {
     private UserRepository userRepository;
 
     private final UserMapper userMapper = new UserMapper();
-    public static final String ALPHABET = "[^A-Za-z0-9]";
+    private static final String ALPHABET = "[^A-Za-z0-9]";
 
     @Override
     public void insert(User user) throws UserException {

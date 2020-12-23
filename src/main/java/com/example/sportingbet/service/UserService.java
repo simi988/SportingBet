@@ -3,7 +3,6 @@ package com.example.sportingbet.service;
 import com.example.sportingbet.exception.UserException;
 import com.example.sportingbet.model.User;
 
-import java.sql.SQLException;
 import java.util.List;
 
 public interface UserService {
