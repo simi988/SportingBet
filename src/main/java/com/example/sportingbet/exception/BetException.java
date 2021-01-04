@@ -1,0 +1,26 @@
+package com.example.sportingbet.exception;
+
+import org.springframework.http.HttpStatus;
+
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+
+public class BetException extends Exception {
+    private final HttpStatus httpStatus;
+    private final ZonedDateTime timestamp;
+
+    public BetException(String string, HttpStatus httpStatus) {
+        super(string);
+        this.httpStatus = httpStatus;
+        timestamp = ZonedDateTime.now(ZoneId.of("Z"));
+    }
+
+
+    public HttpStatus getHttpStatus() {
+        return httpStatus;
+    }
+
+    public ZonedDateTime getTimestamp() {
+        return timestamp;
+    }
+}

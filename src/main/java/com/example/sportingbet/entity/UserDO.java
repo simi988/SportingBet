@@ -1,6 +1,7 @@
 package com.example.sportingbet.entity;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "user")
@@ -21,6 +22,18 @@ public class UserDO {
 
     @Column(name = "password")
     private String password;
+
+    @OneToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST})
+    @JoinColumn(name = "userbet_id")
+    private List<BetDO> betDO;
+
+    public List<BetDO> getBetDO() {
+        return betDO;
+    }
+
+    public void setBetDO(List<BetDO> betDO) {
+        this.betDO = betDO;
+    }
 
     public Long getId() {
         return id;

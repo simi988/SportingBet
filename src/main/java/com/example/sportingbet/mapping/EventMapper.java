@@ -20,9 +20,9 @@ public class EventMapper {
         Event event = new Event();
         event.setId(eventDO.getId());
 
-        List<ParticipantDO> participantsDOList = eventDO.getParticipants();
+
         List<Participant> participants = new ArrayList<>();
-        for (ParticipantDO participantDO : participantsDOList) {
+        for (ParticipantDO participantDO : eventDO.getParticipants()) {
             Participant participant = participantMapper.mapToDto(participantDO);
             participants.add(participant);
         }

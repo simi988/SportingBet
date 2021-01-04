@@ -25,4 +25,12 @@ public class ApiExceptionHandler {
         return new ResponseEntity<>(apiException, status);
     }
 
+    @ExceptionHandler(BetException.class)
+    public ResponseEntity<Object> handleApiRequestException(BetException betException) {
+        HttpStatus status = betException.getHttpStatus();
+        ApiException apiException = new ApiException(betException.getMessage(),
+                status);
+        return new ResponseEntity<>(apiException, status);
+    }
+
 }
