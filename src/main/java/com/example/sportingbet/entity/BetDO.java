@@ -28,6 +28,16 @@ public class BetDO {
     @ManyToOne(cascade = {CascadeType.PERSIST})
     private UserDO user;
 
+    private boolean win;
+
+    public boolean isWin() {
+        return win;
+    }
+
+    public void setWin(boolean win) {
+        this.win = win;
+    }
+
     public UserDO getUser() {
         return user;
     }

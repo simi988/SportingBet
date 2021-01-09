@@ -36,6 +36,19 @@ public class EventDO {
     @Column(name = "time")
     private Time time;
 
+    private String score;
+
+
+
+    public String getScore() {
+        return score;
+    }
+
+    public void setScore(String score) {
+        this.score = score;
+    }
+
+
     public Long getId() {
         return id;
     }
