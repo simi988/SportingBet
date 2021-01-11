@@ -2,9 +2,7 @@ package com.example.sportingbet.api;
 
 import com.example.sportingbet.exception.EventException;
 import com.example.sportingbet.exception.UserException;
-import com.example.sportingbet.model.ApiResponse;
-import com.example.sportingbet.service.ValidationService;
-import com.example.sportingbet.service.ValidationServiceImpl;
+import com.example.sportingbet.service.BetValidationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,23 +12,23 @@ import java.io.IOException;
 
 @RequestMapping("api/v1/validation")
 @RestController
-public class ValidationController {
-    ValidationService validationService;
+public class BetValidationController {
+    BetValidationService betValidationService;
 
     @Autowired
-    public ValidationController(ValidationService validationService) {
-        this.validationService = validationService;
+    public BetValidationController(BetValidationService betValidationService) {
+        this.betValidationService = betValidationService;
     }
 
-    @PostMapping
-    public ResponseEntity<Object> setEventScore() throws IOException, EventException {
-        validationService.setEventScore();
+    @PostMapping(path = "{location}")
+    public ResponseEntity<Object> setEventScore(@PathVariable String location) throws IOException, EventException {
+        betValidationService.setEventScore(location);
         return new ResponseEntity<>("Event score is added", HttpStatus.OK);
     }
 
     @GetMapping(path = "{id}")
     public ResponseEntity<Object> winBet(@PathVariable Long id) throws UserException, EventException {
-        return  validationService.winBet(id);
+        return betValidationService.winBet(id);
     }
 
 

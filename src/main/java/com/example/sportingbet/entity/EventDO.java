@@ -1,5 +1,7 @@
 package com.example.sportingbet.entity;
 
+import com.example.sportingbet.model.Odd;
+
 import javax.persistence.*;
 import java.sql.Time;
 import java.util.Date;
@@ -36,9 +38,21 @@ public class EventDO {
     @Column(name = "time")
     private Time time;
 
+    @Column(name = "score")
     private String score;
 
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(name = "odd_win_list", joinColumns = @JoinColumn(name = "id"))
+    @Enumerated(EnumType.STRING)
+    private List<Odd> oddWinList;
 
+    public List<Odd> getOddWinList() {
+        return oddWinList;
+    }
+
+    public void setOddWinList(List<Odd> oddWinList) {
+        this.oddWinList = oddWinList;
+    }
 
     public String getScore() {
         return score;
