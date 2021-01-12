@@ -37,6 +37,7 @@ public class BetValidationServiceImpl implements BetValidationService {
             try {
                 EventDO eventDO = getEvent(longStringEntry.getKey());
                 eventDO.setScore(longStringEntry.getValue());
+                checkWin(eventDO);
                 eventRepository.save(eventDO);
             } catch (EventException eventException) {
                 err.println(eventException.getMessage());
@@ -48,10 +49,16 @@ public class BetValidationServiceImpl implements BetValidationService {
     public ResponseEntity<Object> winBet(Long id) throws UserException, EventException {
         Optional<BetDO> betDO = betRepository.findById(id);
         if (betDO.isPresent()) {
-            if (!betDO.get().isWin()) {
+            if (betDO.get().isWin()==null) {
                 if (!checkBet(betDO.get())) {
                     return new ResponseEntity<>("Your Ticket's is lose", HttpStatus.OK);
                 }
+            }
+            else if (){
+
+            }
+            else{
+
             }
 
         } else {
@@ -69,7 +76,6 @@ public class BetValidationServiceImpl implements BetValidationService {
         Map<Long, Long> eventMap = betDO.getEventList();
         for (Map.Entry<Long, Long> entry : eventMap.entrySet()) {
             EventDO eventDO = getEvent(entry.getKey());
-            checkWin(eventDO);
             Optional<PrognosticsDO> prognosticsDO = prognosticRepository.findById(entry.getValue());
             if (prognosticsDO.isPresent()) {
                 if (!eventDO.getOddWinList().contains(prognosticsDO.get().getOdd())) {

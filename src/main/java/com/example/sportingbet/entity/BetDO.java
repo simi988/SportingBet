@@ -28,14 +28,16 @@ public class BetDO {
     @ManyToOne(cascade = {CascadeType.PERSIST})
     private UserDO user;
 
-    @Column(columnDefinition = "tinyint(0) default 0")
-    private boolean win = false;
+    @Column(name = "win")
+    private Boolean win=null;
 
-    public boolean isWin() {
+
+
+    public Boolean isWin() {
         return win;
     }
 
-    public void setWin(boolean win) {
+    public void setWin(Boolean win) {
         this.win = win;
     }
 
