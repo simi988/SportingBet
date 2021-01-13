@@ -17,8 +17,6 @@ import org.springframework.stereotype.Service;
 import java.io.*;
 import java.util.*;
 
-import static java.lang.System.err;
-
 @Service
 public class BetValidationServiceImpl implements BetValidationService {
     @Autowired
@@ -30,37 +28,37 @@ public class BetValidationServiceImpl implements BetValidationService {
     @Autowired
     PrognosticRepository prognosticRepository;
 
+
     @Override
-    public void setEventScore(String location) throws IOException {
+    public ResponseEntity<Object> setEventScore(String location) throws IOException {
         Map<Long, String> longStringMap = readCSVFile(location);
+        String message = "";
         for (Map.Entry<Long, String> longStringEntry : longStringMap.entrySet()) {
             try {
                 EventDO eventDO = getEvent(longStringEntry.getKey());
                 eventDO.setScore(longStringEntry.getValue());
                 checkWin(eventDO);
                 eventRepository.save(eventDO);
+
             } catch (EventException eventException) {
-                err.println(eventException.getMessage());
+                message = " ,but you have some trouble with this:  " + eventException.getMessage();
+
             }
         }
+        return new ResponseEntity<>("Event score is added" + message, HttpStatus.OK);
     }
 
     @Override
     public ResponseEntity<Object> winBet(Long id) throws UserException, EventException {
         Optional<BetDO> betDO = betRepository.findById(id);
         if (betDO.isPresent()) {
-            if (betDO.get().isWin()==null) {
+            if (betDO.get().isWin() == null) {
                 if (!checkBet(betDO.get())) {
                     return new ResponseEntity<>("Your Ticket's is lose", HttpStatus.OK);
                 }
+            } else {
+                return checkValidation(betDO.get(), betDO.get().isWin());
             }
-            else if (){
-
-            }
-            else{
-
-            }
-
         } else {
             throw new UserException("Bet is not exist", HttpStatus.BAD_REQUEST);
         }
@@ -72,13 +70,22 @@ public class BetValidationServiceImpl implements BetValidationService {
         return new ResponseEntity<>(message, HttpStatus.OK);
     }
 
+    private ResponseEntity<Object> checkValidation(BetDO betDO, boolean aBoolean) {
+        if (!aBoolean) {
+            return new ResponseEntity<>("Your Ticket's is lose", HttpStatus.OK);
+        }
+        double winSum = calculateSum(betDO);
+        String message = "Your Ticket's is win! You win " + winSum + " RON";
+        return new ResponseEntity<>(message, HttpStatus.OK);
+    }
+
     private boolean checkBet(BetDO betDO) throws EventException {
         Map<Long, Long> eventMap = betDO.getEventList();
         for (Map.Entry<Long, Long> entry : eventMap.entrySet()) {
             EventDO eventDO = getEvent(entry.getKey());
             Optional<PrognosticsDO> prognosticsDO = prognosticRepository.findById(entry.getValue());
             if (prognosticsDO.isPresent()) {
-                if (!eventDO.getOddWinList().contains(prognosticsDO.get().getOdd())) {
+                if (!eventDO.getOddWinList().contains(prognosticsDO.get())) {
                     return false;
                 }
             } else {
@@ -94,7 +101,7 @@ public class BetValidationServiceImpl implements BetValidationService {
             return eventRepositoryById.get();
 
         } else {
-            throw new EventException("Event not exist", HttpStatus.BAD_REQUEST);
+            throw new EventException("Your Event id not exist " + id, HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -102,30 +109,45 @@ public class BetValidationServiceImpl implements BetValidationService {
         String score = eventDO.getScore();
         if (score != null) {
             String[] split = score.split("-");
-            List<Integer> scoreList = new ArrayList<>();
-            for (String number : split) {
-                int scoreNumber = Integer.parseInt(number);
-                scoreList.add(scoreNumber);
-            }
+            List<Integer> scoreList = getScoreList(split);
             if (scoreList.get(0) > scoreList.get(1)) {
-
                 List<Odd> oddList = Arrays.asList(Odd.X1, Odd.UNU, Odd.PSF1);
-                eventDO.setOddWinList(oddList);
+                eventDO.setOddWinList( addPrognostic(eventDO,oddList));
 
 
             } else if (scoreList.get(0).equals(scoreList.get(1))) {
                 List<Odd> oddList = Arrays.asList(Odd.X2, Odd.X1, Odd.X, Odd.PSFX);
-                eventDO.setOddWinList(oddList);
+                eventDO.setOddWinList( addPrognostic(eventDO,oddList));
 
 
             } else {
                 List<Odd> oddList = Arrays.asList(Odd.X2, Odd.DOI, Odd.PSF2);
-                eventDO.setOddWinList(oddList);
+                eventDO.setOddWinList( addPrognostic(eventDO,oddList));
 
             }
         } else {
             throw new EventException("Event is not finish", HttpStatus.BAD_REQUEST);
         }
+    }
+
+    private  List<PrognosticsDO> addPrognostic(EventDO eventDO,List<Odd> oddList){
+        List<PrognosticsDO> prognosticsDOList = new ArrayList<>();
+        for (PrognosticsDO prognostic : eventDO.getPrognostics()) {
+            if (oddList.contains(prognostic.getOdd())) {
+                prognosticsDOList.add(prognostic);
+            }
+        }
+        return prognosticsDOList;
+
+    }
+
+    private List<Integer> getScoreList(String[] split){
+        List<Integer> scoreList = new ArrayList<>();
+        for (String number : split) {
+            int scoreNumber = Integer.parseInt(number);
+            scoreList.add(scoreNumber);
+        }
+        return scoreList;
     }
 
     private double calculateSum(BetDO betDO) {

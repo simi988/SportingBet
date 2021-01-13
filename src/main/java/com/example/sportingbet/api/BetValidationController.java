@@ -22,8 +22,7 @@ public class BetValidationController {
 
     @PostMapping(path = "{location}")
     public ResponseEntity<Object> setEventScore(@PathVariable String location) throws IOException, EventException {
-        betValidationService.setEventScore(location);
-        return new ResponseEntity<>("Event score is added", HttpStatus.OK);
+      return   betValidationService.setEventScore(location);
     }
 
     @GetMapping(path = "{id}")

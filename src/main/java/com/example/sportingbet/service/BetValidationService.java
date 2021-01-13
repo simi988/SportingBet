@@ -7,7 +7,7 @@ import org.springframework.http.ResponseEntity;
 import java.io.IOException;
 
 public interface BetValidationService {
-    void setEventScore(String location) throws EventException, IOException;
+    ResponseEntity<Object> setEventScore(String location) throws EventException, IOException;
 
     ResponseEntity<Object> winBet(Long id) throws UserException, EventException;
 }

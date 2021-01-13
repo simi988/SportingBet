@@ -41,16 +41,19 @@ public class EventDO {
     @Column(name = "score")
     private String score;
 
-    @ElementCollection(fetch = FetchType.EAGER)
-    @CollectionTable(name = "odd_win_list", joinColumns = @JoinColumn(name = "id"))
-    @Enumerated(EnumType.STRING)
-    private List<Odd> oddWinList;
+    @ManyToMany(cascade = {CascadeType.PERSIST})
+    @JoinTable(
+            name = "event_prognostics_win",
+            joinColumns = @JoinColumn(name = "event_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "prognostics_id", referencedColumnName = "id")
+    )
+    private List<PrognosticsDO> oddWinList;
 
-    public List<Odd> getOddWinList() {
+    public List<PrognosticsDO> getOddWinList() {
         return oddWinList;
     }
 
-    public void setOddWinList(List<Odd> oddWinList) {
+    public void setOddWinList(List<PrognosticsDO> oddWinList) {
         this.oddWinList = oddWinList;
     }
 
